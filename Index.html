@@ -1,0 +1,70 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caminho até a faculdade</title>
+    <style>
+
+        /* Responsáveis pelo design dos botões e design da interface do jogo */  
+        body { margin: 0; overflow: hidden; background-color: #111; color: white; font-family: sans-serif; }
+        #game-container { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+        .tela { display: none; text-align: center; background: rgba(0, 0, 0, 0.9); padding: 40px; border-radius: 15px; border: 2px solid #f1c40f; pointer-events: auto; }
+        .tela.ativa { display: block; }
+        
+        #menu-inicial.ativa {
+            display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+            background-image: url('telainicial.png'); background-size: cover; background-position: center;
+            border: none; width: 100%; height: 100%; padding-bottom: 80px;
+        }
+        
+        #btn-jogar { background: #e74c3c; padding: 20px 80px; font-size: 2rem; border-radius: 10px; box-shadow: 0 5px 0 #c0392b; border: none; color: white; font-weight: bold; cursor: pointer; }
+        #btn-jogar:hover { background: #c0392b; transform: translateY(-2px); }
+        
+        input[type="text"] { width: 250px; padding: 10px; font-size: 1.2rem; margin-bottom: 20px; border-radius: 5px; border: none; text-align: center; }
+        .seletor { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .seletor img { width: 60px; height: 60px; border-radius: 5px; border: 2px solid transparent; cursor: pointer; }
+        .seletor label:has(input:checked) img { border-color: #f1c40f; transform: scale(1.1); background: rgba(241, 196, 15, 0.2); }
+        .seletor input { display: none; }
+        
+        #hud { position: absolute; top: 20px; left: 20px; font-size: 1.5rem; text-shadow: 2px 2px black; pointer-events: none; }
+        #barra-vida-fundo { width: 200px; height: 15px; background: #333; border: 1px solid #fff; margin-top: 5px; }
+        #barra-vida { width: 100%; height: 100%; background: #e74c3c; transition: width 0.2s; }
+    </style>
+</head>
+<!-- Responsavel pelo corpo textil da interface -->
+<body>
+    <div id="game-container">
+        <canvas id="jogo"></canvas>
+        <div id="hud" style="display: none;">
+            <div id="nome-hud" style="color: #f1c40f; font-weight: bold;"></div>
+            <div>Tempo: <span id="tempo-hud">30</span>s</div>
+            <div>Moedas: <span id="moedas-hud">0</span> / 6</div>
+            <div id="barra-vida-fundo"><div id="barra-vida"></div></div>
+        </div>
+        <div id="ui-layer">
+            <div id="menu-inicial" class="tela ativa">
+                <button id="btn-jogar" onclick="mostrarConfiguracao()">JOGAR</button>
+            </div>
+            <div id="menu-config" class="tela">
+                <h2 style="color:#f1c40f">PREPARAÇÃO</h2>
+                <input type="text" id="input-nome" placeholder="Seu Nickname..." maxlength="12">
+                <div class="seletor">
+                    <label><input type="radio" name="personagem" value="skin1.png" checked><img src="skin1.png"></label>
+                    <label><input type="radio" name="personagem" value="skin2.png"><img src="skin2.png"></label>
+                    <label><input type="radio" name="personagem" value="skin3.png"><img src="skin3.png"></label>
+                    <label><input type="radio" name="personagem" value="skin4.png"><img src="skin4.png"></label>
+                    <label><input type="radio" name="personagem" value="skin5.png"><img src="skin5.png"></label>
+                </div>
+                <button id="btn-jogar" onclick="iniciarJogo()">COMEÇAR</button>
+            </div>
+            <div id="menu-gameover" class="tela"><h1>GAME OVER</h1><button id="btn-jogar" onclick="voltarMenu()">TENTAR DE NOVO</button></div>
+            <div id="menu-vitoria" class="tela"><h1>VITÓRIA!</h1><button id="btn-jogar" onclick="voltarMenu()">JOGAR DE NOVO</button></div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
